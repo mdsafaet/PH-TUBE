@@ -40,7 +40,7 @@ const loadDetails = async (videoId) => {
     const data = await res.json();
     displayDetails(data.video);
   };
-  
+
   const displayDetails = (video) => {
     console.log(video);
     const detailContainer = document.getElementById("modal-content");
@@ -56,9 +56,11 @@ const loadDetails = async (videoId) => {
     document.getElementById("customModal").showModal();
   };
 
-const LoadVideos = () => {
-
-    fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const LoadVideos = (searchText = "") => {
+  //fetch the data
+  fetch(
+    `https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`
+  )
       .then(response => response.json())
       .then(data =>DisplayVideos(data.videos))
       .catch(error => console.error(error))
@@ -210,6 +212,12 @@ const DisplayCategories = (categories) => {
 
  //add button to the categoryContainer
     categoryContainer.append(buttonContainer);
+
+
+
+    document.getElementById("search-input").addEventListener("keyup", (e) => {
+        LoadVideos(e.target.value);
+      });
 
 });
 
